@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+
+    <style>
+        
+        *{
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #eaf2ff, #f5f7fb);
+            margin: 0;
+            padding: 35px 15px;
+            color: #263449;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(35, 65, 110, 0.12);
+        }
+
+        h1 {
+            text-align: center;
+            color: #173b68;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .container > p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        label {
+            display: block;
+            margin-top: 8px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #d5deea;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fbfdff;
+            color: #263449;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2878d0;
+            box-shadow: 0 0 0 3px rgba(40, 120, 208, 0.12);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            background: #1769aa;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #104d80;
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 28px;
+            padding: 22px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+
+        .result h3 {
+            margin-top: 0;
+            font-size: 21px;
+        }
+
+        .result p {
+            margin-bottom: 8px;
+        }
+
+        .stay {
+            background: #ecfdf3;
+            color: #166534;
+            border-color: #bbf7d0;
+        }
+
+        .churn {
+            background: #fff1f2;
+            color: #9f1239;
+            border-color: #fecdd3;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 22px;
+            background: #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+
+        .high-risk {
+            background: #dc3545;
+        }
+
+        .low-risk {
+            background: #28a745;
+        }
+        .medium-risk {
+            background: #f0ad4e;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .container {
+                padding: 22px 18px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .risk-guide {
+            margin-top: 28px;
+            padding: 20px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+
+        .risk-guide h3 {
+            margin-top: 0;
+            color: #173b68;
+        }
+
+        .risk-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+            color: #334155;
+        }
+
+        .risk-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .low-dot {
+            background: #28a745;
+        }
+
+        .medium-dot {
+            background: #f0ad4e;
+        }
+
+        .high-dot {
+            background: #dc3545;
+        }
+        .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+        .summary-card {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .summary-card h3 {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .summary-card p {
+            font-size: 17px;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Customer Churn Prediction</h1>
+    <p class="subtitle">AI-powered customer retention analysis</p>
+    <div class="summary-cards">
+
+    <div class="summary-card">
+        <h3>Project Type</h3>
+        <p>Machine Learning</p>
+    </div>
+
+    <div class="summary-card">
+        <h3>Dataset Size</h3>
+        <p>7,043 Customers</p>
+    </div>
+
+    <div class="summary-card">
+        <h3>Prediction</h3>
+        <p>Churn Analysis</p>
+    </div>
+
+    </div>
+    <p>Enter customer details to estimate churn risk.</p>
+
+    <form method="POST">
+        <div class="grid">
+            <div>
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="SeniorCitizen">Senior Citizen</label>
+                <select id="SeniorCitizen" name="SeniorCitizen" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="Partner">Partner</label>
+                <select id="Partner" name="Partner" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="Dependents">Dependents</label>
+                <select id="Dependents" name="Dependents" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="tenure">Tenure (months)</label>
+                <input type="number" id="tenure" name="tenure"
+                       min="0" max="100" value="12" required>
+            </div>
+
+            <div>
+                <label for="PhoneService">Phone Service</label>
+                <select id="PhoneService" name="PhoneService" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="MultipleLines">Multiple Lines</label>
+                <select id="MultipleLines" name="MultipleLines" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No phone service">No phone service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="InternetService">Internet Service</label>
+                <select id="InternetService" name="InternetService" required>
+                    <option value="DSL">DSL</option>
+                    <option value="Fiber optic">Fiber optic</option>
+                    <option value="No">No internet service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="OnlineSecurity">Online Security</label>
+                <select id="OnlineSecurity" name="OnlineSecurity" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No internet service">No internet service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="OnlineBackup">Online Backup</label>
+                <select id="OnlineBackup" name="OnlineBackup" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No internet service">No internet service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="DeviceProtection">Device Protection</label>
+                <select id="DeviceProtection" name="DeviceProtection" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No internet service">No internet service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="TechSupport">Tech Support</label>
+                <select id="TechSupport" name="TechSupport" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No internet service">No internet service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="StreamingTV">Streaming TV</label>
+                <select id="StreamingTV" name="StreamingTV" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No internet service">No internet service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="StreamingMovies">Streaming Movies</label>
+                <select id="StreamingMovies" name="StreamingMovies" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No internet service">No internet service</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="Contract">Contract</label>
+                <select id="Contract" name="Contract" required>
+                    <option value="Month-to-month">Month-to-month</option>
+                    <option value="One year">One year</option>
+                    <option value="Two year">Two year</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="PaperlessBilling">Paperless Billing</label>
+                <select id="PaperlessBilling" name="PaperlessBilling" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="PaymentMethod">Payment Method</label>
+                <select id="PaymentMethod" name="PaymentMethod" required>
+                    <option value="Electronic check">Electronic check</option>
+                    <option value="Mailed check">Mailed check</option>
+                    <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                    <option value="Credit card (automatic)">Credit card (automatic)</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="MonthlyCharges">Monthly Charges</label>
+                <input type="number" id="MonthlyCharges" name="MonthlyCharges"
+                       min="0" step="0.01" value="70" required>
+            </div>
+
+            <div>
+                <label for="TotalCharges">Total Charges</label>
+                <input type="number" id="TotalCharges" name="TotalCharges"
+                       min="0" step="0.01" value="840" required>
+            </div>
+        </div>
+
+        <button type="submit">Predict Churn</button>
+        
+        <div class="risk-guide">
+            <h3>Risk Level Guide</h3>
+
+            <div class="risk-item">
+                <span class="risk-dot low-dot"></span>
+                <span><strong>Low Risk:</strong> Below 30%</span>
+            </div>
+
+            <div class="risk-item">
+                <span class="risk-dot medium-dot"></span>
+                <span><strong>Medium Risk:</strong> 30% to below 60%</span>
+            </div>
+
+            <div class="risk-item">
+                <span class="risk-dot high-dot"></span>
+                <span><strong>High Risk:</strong> 60% or above</span>
+            </div>
+        </div>
+
+    </form>
+
+    
+{% if prediction %}
+<div class="result
+    {% if 'stay' in prediction %}stay
+    {% else %}churn{% endif %}">
+
+    <h3>{{ prediction }}</h3>
+
+    <p>Estimated churn probability: {{ churn_probability }}%</p>
+    <p><strong>Risk Level:</strong> {{ risk_level }}</p>
+
+    <div class="progress-container">
+    <div class="progress-bar {{ risk_color }}"
+        style="width: {{ churn_probability }}%;">
+    </div>
+    </div>
+
+</div>
+{% endif %}
+
+</div>
+</body>
+</html>
+</html>
