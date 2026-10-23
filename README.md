@@ -34,6 +34,34 @@ The model was evaluated using different classification thresholds to understand 
 
 A lower threshold identifies more customers who may churn, increasing recall but also producing more false positives. A higher threshold improves precision but may miss more customers who actually churn.
 
+## Confusion Matrix and Classification Report
+
+The model was evaluated using a classification threshold of 0.40.
+
+### Model Performance
+
+- **Accuracy:** 77.71%
+- **Precision (Churn = Yes):** 57%
+- **Recall (Churn = Yes):** 67%
+- **F1-score (Churn = Yes):** 61%
+
+### Confusion Matrix
+
+|  | Predicted: No Churn | Predicted: Churn |
+|---|---:|---:|
+| Actual: No Churn | 845 | 190 |
+| Actual: Churn | 124 | 250 |
+
+### Interpretation
+
+- **845** customers who did not churn were correctly identified.
+- **190** customers who did not churn were incorrectly predicted to churn.
+- **124** customers who churned were incorrectly predicted not to churn.
+- **250** customers who churned were correctly identified.
+
+The model identifies approximately 67% of customers who actually churned at this threshold. This makes recall an important metric when evaluating the model's ability to identify potential churners.
+
+
 ## Web Application
 The Flask application accepts customer details and displays a churn prediction, probability, and risk level.
 
