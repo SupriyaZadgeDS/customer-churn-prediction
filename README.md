@@ -3,6 +3,16 @@
 ## Project Overview
 This project predicts whether a telecommunications customer is likely to leave the company.
 
+## Project Workflow
+
+1. **Data Loading:** Loaded the Telco Customer Churn dataset using Pandas.
+2. **Data Cleaning:** Handled missing values and prepared the data for analysis.
+3. **Data Preprocessing:** Prepared numerical and categorical features for machine learning.
+4. **Model Training:** Trained a Logistic Regression model using Scikit-learn.
+5. **Model Evaluation:** Evaluated performance using accuracy, precision, recall, F1-score, and a confusion matrix.
+6. **Threshold Analysis:** Compared classification thresholds to understand the trade-off between recall and precision.
+7. **Deployment:** Built a Flask web application to predict customer churn and display risk levels.
+
 ## Objectives
 - Predict customer churn using machine learning.
 - Estimate churn probability.
