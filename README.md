@@ -75,6 +75,10 @@ The model identifies approximately 67% of customers who actually churned at this
 ## Web Application
 The Flask application accepts customer details and displays a churn prediction, probability, and risk level.
 
+### Application Screenshot
+
+![Customer Churn Prediction App](Customer_Churn_Prediction.png)
+
 ## How to Run
 1. Install the required packages:
    `pip install -r requirements.txt`
