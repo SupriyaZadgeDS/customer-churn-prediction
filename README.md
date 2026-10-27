@@ -42,6 +42,21 @@ The model was evaluated using different classification thresholds to understand 
 | 0.50      | 80.55%   | 55.88% | 65.72%    |
 | 0.60      | 79.91%   | 40.11% | 71.77%    |
 
+### Weighted Logistic Regression Model Evaluation
+
+I trained a second Logistic Regression model using `class_weight="balanced"` to address the imbalance between customers who churn and those who stay.
+
+| Threshold | Accuracy | Recall | Precision |
+|---:|---:|---:|---:|
+| 0.30 | 65.44% | 92.78% | 43.00% |
+| 0.40 | 70.12% | 86.63% | 46.62% |
+| 0.50 | 73.81% | 78.34% | 50.43% |
+| 0.60 | 76.22% | 70.59% | 53.99% |
+
+The weighted model achieved **92.78% recall at a threshold of 0.30**, helping identify a larger proportion of customers who churn. At a threshold of 0.60, it achieved **76.22% accuracy and 53.99% precision**.
+
+These results demonstrate the trade-off between identifying more customers who churn and reducing false-positive predictions. The appropriate threshold depends on the business objective.
+
 A lower threshold identifies more customers who may churn, increasing recall but also producing more false positives. A higher threshold improves precision but may miss more customers who actually churn.
 
 ## Confusion Matrix and Classification Report
