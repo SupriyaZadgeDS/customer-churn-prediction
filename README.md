@@ -8,7 +8,7 @@ This project predicts whether a telecommunications customer is likely to leave t
 1. **Data Loading:** Loaded the Telco Customer Churn dataset using Pandas.
 2. **Data Cleaning:** Handled missing values and prepared the data for analysis.
 3. **Data Preprocessing:** Prepared numerical and categorical features for machine learning.
-4. **Model Training:** Trained a Logistic Regression model using Scikit-learn.
+4. **Model Training:** Trained baseline and class-weighted Logistic Regression models using Scikit-learn.
 5. **Model Evaluation:** Evaluated performance using accuracy, precision, recall, F1-score, and a confusion matrix.
 6. **Threshold Analysis:** Compared classification thresholds to understand the trade-off between recall and precision.
 7. **Deployment:** Built a Flask web application to predict customer churn and display risk levels.
@@ -75,11 +75,11 @@ A lower threshold identifies more customers who may churn, increasing recall but
 ```text
 [[747, 288],
  [ 81, 293]]
-```
+
 
 The weighted model uses `class_weight="balanced"` to give greater consideration to the minority churn class during training. At the default threshold of 0.50, it identifies 78.34% of customers who churn.
 
-## Confusion Matrix and Classification Report
+## Baseline Model Evaluation at Threshold 0.40
 
 The model was evaluated using a classification threshold of 0.40.
 
