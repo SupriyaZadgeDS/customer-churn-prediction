@@ -120,11 +120,34 @@ The Flask application accepts customer details and displays a churn prediction, 
 
 
 ## How to Run
-1. Install the required packages:
-   `pip install -r requirements.txt`
-2. Start the application:
-   `python app.py`
-3. Open `http://127.0.0.1:5000` in your browser.
 
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/SupriyaZadgeDS/customer-churn-prediction.git
+```
+
+### 2. Open the Project Folder
+
+```bash
+cd customer-churn-prediction
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Flask Application
+
+```bash
+python app.py
+```
+
+### 5. Open in Your Browser
+
+Visit `http://127.0.0.1:5000` to use the Customer Churn Prediction application.
 ## Author
 Supriya Zadge
