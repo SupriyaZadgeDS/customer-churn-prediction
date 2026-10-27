@@ -59,6 +59,26 @@ These results demonstrate the trade-off between identifying more customers who c
 
 A lower threshold identifies more customers who may churn, increasing recall but also producing more false positives. A higher threshold improves precision but may miss more customers who actually churn.
 
+#### Classification Report at Default Threshold (0.50)
+
+**Accuracy:** 73.81%
+
+| Class | Precision | Recall | F1-score | Support |
+|---|---:|---:|---:|---:|
+| No Churn (0) | 0.90 | 0.72 | 0.80 | 1035 |
+| Churn (1) | 0.50 | 0.78 | 0.61 | 374 |
+| Macro Average | 0.70 | 0.75 | 0.71 | 1409 |
+| Weighted Average | 0.80 | 0.74 | 0.75 | 1409 |
+
+**Confusion Matrix**
+
+```text
+[[747, 288],
+ [ 81, 293]]
+```
+
+The weighted model uses `class_weight="balanced"` to give greater consideration to the minority churn class during training. At the default threshold of 0.50, it identifies 78.34% of customers who churn.
+
 ## Confusion Matrix and Classification Report
 
 The model was evaluated using a classification threshold of 0.40.
