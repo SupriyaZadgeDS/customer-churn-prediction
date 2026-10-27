@@ -72,7 +72,6 @@ A lower threshold identifies more customers who may churn, increasing recall but
 
 **Confusion Matrix**
 
-```text
 [[747, 288],
  [ 81, 293]]
 
